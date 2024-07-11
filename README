@@ -1,0 +1,39 @@
+Algorithm-CurveFit version 1.00
+===============================
+
+Algorithm::CurveFit implements a nonlinear least squares curve fitting
+algorithm. That means, it fits a curve of known form (sine-like, exponential,
+polynomial of degree n, etc.) to a given set of data points.
+
+For details about the algorithm and its capabilities and flaws, you're
+encouraged to read the following MathWorld page:
+
+  Eric W. Weisstein. "Nonlinear Least Squares Fitting."
+  From MathWorld--A Wolfram Web Resource.
+  http://mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  Math::Symbolic version 0.128 and later
+  Math::MatrixReal
+  Test::More
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2005 by Steffen Müller
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.4 or,
+at your option, any later version of Perl 5 you may have available.
+
