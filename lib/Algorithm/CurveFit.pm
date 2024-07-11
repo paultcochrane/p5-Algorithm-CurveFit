@@ -4,6 +4,8 @@ use 5.006;
 use strict;
 use warnings;
 
+our $VERSION = '1.03';
+
 require Exporter;
 
 our @ISA = qw(Exporter);
@@ -22,8 +24,6 @@ our %EXPORT_TAGS = (
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
 our @EXPORT = qw();
-
-our $VERSION = '1.02';
 
 use Carp qw/cluck confess/;
 use Math::Symbolic qw/parse_from_string/;
@@ -395,14 +395,14 @@ with them. L<Math::Symbolic>, L<Math::MatrixReal>, L<Test::More>
 
 =head1 AUTHOR
 
-Steffen Mueller, E<lt>curvefit-module at steffen-mueller dot net<gt>
+Steffen Mueller, E<lt>smueller@cpan.org<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 by Steffen Mueller
+Copyright (C) 2005-2006 by Steffen Mueller
 
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.4 or,
+it under the same terms as Perl itself, either Perl version 5.6 or,
 at your option, any later version of Perl 5 you may have available.
 
 =cut

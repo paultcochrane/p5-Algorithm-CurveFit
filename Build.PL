@@ -3,7 +3,7 @@ use Module::Build;
 my $b = Module::Build->new
   (
    module_name => 'Algorithm::CurveFit',
-   dist_author => 'Steffen Mueller <curvefit-module at steffen-mueller dot net>',
+   dist_author => 'Steffen Mueller <smueller@cpan.org>',
    license => 'perl',
    requires => {
                 'Data::Dumper' => '0',

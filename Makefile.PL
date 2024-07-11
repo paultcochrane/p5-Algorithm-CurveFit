@@ -5,6 +5,7 @@ WriteMakefile
           'PL_FILES' => {},
           'INSTALLDIRS' => 'site',
           'NAME' => 'Algorithm::CurveFit',
+          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Algorithm/CurveFit.pm',
           'PREREQ_PM' => {
                            'Test::More' => 0,

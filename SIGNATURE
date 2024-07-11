@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.44.
+signed via the Module::Signature module, version 0.55.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,20 +14,23 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 da3e200096bcec4094398233e2c0c38a4637ad7b Build.PL
-SHA1 6e0315f2c478085ff54cc06bde3a4844e97a0ba8 Changes
-SHA1 9df7a777a01ab7e462589727c13991b01d74cb05 MANIFEST
-SHA1 1f1327c580cb38d78b51750dd3384bf9d02253d5 META.yml
-SHA1 ce41c7a658c997a78def7182c45ff95623a6d098 Makefile.PL
-SHA1 717b4c16e3bd64b354bddc72e462e052aff663ba README
-SHA1 373fbc96555b74464cfd3f83abe78811dd57c2a0 lib/Algorithm/CurveFit.pm
+SHA1 fffa9036fa1f15faac8ec3293f16051eee50dd1c Build.PL
+SHA1 f208539c9123b915275bdae582e0d9613d84131e Changes
+SHA1 518bdcd30a4a84f30799a7041f202f73277d91dc MANIFEST
+SHA1 8be3b56d3db13d49942f8aec5cb62a65a899d71d META.yml
+SHA1 d3f000e18722b07df6b68c773f4dd386f31a3255 Makefile.PL
+SHA1 9e169e8c731fc227ad3cf993577881c920dd9d57 README
+SHA1 81276ec41e8db29a187f88c37caa59ce8ff9a11f examples/examplefit.data
+SHA1 009eeaf2ce02df88c56b38641cf73a3f9bed254d examples/examplefit.pl
+SHA1 464d1db01b89cfdec786344adc17f8e7e9819d82 examples/examplefit_generate_data.pl
+SHA1 fff2dc0ee51c6a6c408cf78f253b864277ce02f7 lib/Algorithm/CurveFit.pm
 SHA1 bb0da54f2b3f2d7955baa41ee458cb3d1887f475 t/00pod.t
 SHA1 2db32c1aac44c2e41530ea63431166d91bd458bf t/00podcover.t
 SHA1 396cc9cff58a9475d3756fbf0816cd7bab428234 t/01basic.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.0 (GNU/Linux)
+Version: GnuPG v1.4.3 (GNU/Linux)
 
-iD8DBQFDRXjXZCuimE51gxcRAosYAKCOQWSfQYf/h+hYMM6ck6I9giS/9ACdG0mY
-thnZRKfCdaolvWhp0wg6MUE=
-=YJdG
+iD8DBQFFho6FZCuimE51gxcRAq9xAJsGh422NjMh22nV6UZbKNLnvhI4kwCfWIb9
+SPpgZcwshQ8EStMKO2lQcxE=
+=L7RN
 -----END PGP SIGNATURE-----

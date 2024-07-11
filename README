@@ -1,5 +1,5 @@
-Algorithm-CurveFit version 1.02
-===============================
+Algorithm-CurveFit
+==================
 
 Algorithm::CurveFit implements a nonlinear least squares curve fitting
 algorithm. That means, it fits a curve of known form (sine-like, exponential,
@@ -50,11 +50,11 @@ Current versions of this module may be found on http://steffen-mueller.net or
 CPAN.
 
 Please send your suggestions, inquiries, and feedback to
-curvefit-module at steffen-mueller dot net
+smueller at cpan dot org
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2005 by Steffen Müller
+Copyright (C) 2005-2006 by Steffen Müller
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.6.1 or,
