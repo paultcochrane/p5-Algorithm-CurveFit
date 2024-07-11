@@ -1,26 +1,29 @@
 ---
-name: Algorithm-CurveFit
-version: 1.04
+abstract: 'Nonlinear Least Squares Fitting'
 author:
   - 'Steffen Mueller <smueller@cpan.org>'
-abstract: Nonlinear Least Squares Fitting
+build_requires:
+  Test::More: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3605'
 license: perl
-resources:
-  license: ~
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Algorithm-CurveFit
+provides:
+  Algorithm::CurveFit:
+    file: lib/Algorithm/CurveFit.pm
+    version: 1.05
+recommends:
+  Test::Pod: 1.0
+  Test::Pod::Coverage: 1.0
 requires:
   Data::Dumper: 0
   Math::MatrixReal: 0
   Math::Symbolic: 0.602
-build_requires:
-  Test::More: 0
-recommends:
-  Test::Pod: 1.0
-  Test::Pod::Coverage: 1.0
-provides:
-  Algorithm::CurveFit:
-    file: lib/Algorithm/CurveFit.pm
-    version: 1.04
-generated_by: Module::Build version 0.31012
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+  perl: 5.006
+resources:
+  license: http://dev.perl.org/licenses/
+version: 1.05

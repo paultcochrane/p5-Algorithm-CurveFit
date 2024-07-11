@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 
 require Exporter;
 
@@ -23,10 +23,13 @@ use Math::Symbolic qw/parse_from_string/;
 use Math::MatrixReal;
 use Data::Dumper;
 
+# machine epsilon
+use constant EPS => 2.2e-16;
+use constant SQRT_EPS => sqrt(EPS);
+
 sub curve_fit {
     shift @_ if not ref $_[0] and defined $_[0] and $_[0] eq 'Algorithm::CurveFit';
 
-    # Parameter checking. (I hate this.)
     confess('Uneven number of arguments to Algorithm::CurveFit::curve_fit.')
       if @_ % 2;
 
@@ -43,7 +46,7 @@ sub curve_fit {
         confess( "Cannot parse formula '" . $args{formula} . "'. ($@)" )
           if not defined $formula or $@;
     }
-    
+
     # Variable (optional)
     my $variable = $args{variable};
     $variable = 'x' if not defined $variable;
@@ -55,7 +58,7 @@ sub curve_fit {
 
     # Parameters
     my $params = $args{params};
-    
+
 	confess("Parameter 'params' has to be an array reference.")
       if not defined $params
       or not ref($params) eq 'ARRAY';
@@ -112,13 +115,31 @@ sub curve_fit {
     # Array holding all first order partial derivatives of the function in respect
     # to the parameters in order.
     my @derivatives;
+    my @param_names = ($variable, map {$_->[0]} @parameters);
     foreach my $param (@parameters) {
         my $deriv =
           Math::Symbolic::Operator->new( 'partial_derivative', $formula,
             $param->[0] );
         $deriv = $deriv->simplify()->apply_derivatives()->simplify();
-        push @derivatives, $deriv;
+        my ($sub, $trees) = Math::Symbolic::Compiler->compile_to_sub($deriv, \@param_names);
+        if ($trees) {
+            push @derivatives, $deriv; # residual trees, need to evaluate
+        } else {
+            push @derivatives, $sub;
+        }
     }
+
+    # if not compilable, close over a ->value call for convenience later on
+    my $formula_sub = do {
+        my ($sub, $trees) = Math::Symbolic::Compiler->compile_to_sub($formula, \@param_names);
+        $trees
+        ? sub {
+              $formula->value(
+                map { ($param_names[$_] => $_[$_]) } 0..$#param_names
+              )
+          }
+        : $sub
+    };
 
     my $dbeta;
 
@@ -127,24 +148,43 @@ sub curve_fit {
 
     # As long as we're under max_iter or maxiter==0
     while ( !$max_iter || ++$iteration < $max_iter ) {
-
         # Generate Matrix A
         my @cols;
         my $pno = 0;
+        my @par_values = map {$_->[1]} @parameters;
         foreach my $param (@parameters) {
-            my $deriv = $derivatives[ $pno++ ]->new();
+            my $deriv = $derivatives[ $pno++ ];
 
             my @ary;
-            foreach my $x ( 0 .. $#xdata ) {
-                push @ary,
-                  $deriv->value(
-                    $variable => $xdata[$x],
-                    map { ( @{$_}[ 0, 1 ] ) } @parameters # a, guess
-                  );
+            if (ref $deriv eq 'CODE') {
+                foreach my $x ( 0 .. $#xdata ) {
+                    my $xv = $xdata[$x];
+                    my $value = $deriv->($xv, @par_values);
+                    if (not defined $value) { # fall back to numeric five-point stencil
+                        my $h = SQRT_EPS*$xv; my $t = $xv + $h; $h = $t-$xv; # numerics. Cf. NR
+                        $value = $formula_sub->($xv, @parameters)
+                    }
+                    push @ary, $value;
+                }
+            }
+            else {
+                $deriv = $deriv->new; # better safe than sorry
+                foreach my $x ( 0 .. $#xdata ) {
+                    my $xv = $xdata[$x];
+                    my $value = $deriv->value(
+                      $variable => $xv,
+                      map { ( @{$_}[ 0, 1 ] ) } @parameters # a, guess
+                    );
+                    if (not defined $value) { # fall back to numeric five-point stencil
+                        my $h = SQRT_EPS*$xv; my $t = $xv + $h; $h = $t-$xv; # numerics. Cf. NR
+                        $value = $formula_sub->($xv, @parameters)
+                    }
+                    push @ary, $value;
+                }
             }
             push @cols, \@ary;
         }
-        
+
         # Prepare matrix of datapoints X parameters
         my $A = Math::MatrixReal->new_from_cols( \@cols );
 
@@ -155,9 +195,9 @@ sub curve_fit {
         # residuals
         my @beta =
           map {
-            $ydata[$_] - $formula->value(
-                $variable => $xdata[$_],
-                map { ( @{$_}[ 0, 1 ] ) } @parameters
+            $ydata[$_] - $formula_sub->(
+                $xdata[$_],
+                map { $_->[1] } @parameters
               )
           } 0 .. $#xdata;
         $dbeta = Math::MatrixReal->new_from_cols( [ \@beta ] );
@@ -184,9 +224,9 @@ sub curve_fit {
     # Recalculate dbeta for the squared residuals.
     my @beta =
       map {
-        $ydata[$_] - $formula->value(
-            $variable => $xdata[$_],
-            map { ( @{$_}[ 0, 1 ] ) } @parameters
+        $ydata[$_] - $formula_sub->(
+            $xdata[$_],
+            map { $_->[1] } @parameters
           )
       } 0 .. $#xdata;
     $dbeta = Math::MatrixReal->new_from_cols( [ \@beta ] );
@@ -217,7 +257,7 @@ use Algorithm::CurveFit;
       ['c',     20,     0.00005],  # changes that the accuracy, end.
   );
   my $max_iter = 100; # maximum iterations
-  
+
   my $square_residual = Algorithm::CurveFit->curve_fit(
       formula            => $formula, # may be a Math::Symbolic tree instead
       params             => \@parameters,
@@ -226,7 +266,7 @@ use Algorithm::CurveFit;
       ydata              => \@ydata,
       maximum_iterations => $max_iter,
   );
-  
+
   use Data::Dumper;
   print Dumper \@parameters;
   # Prints
@@ -242,7 +282,7 @@ use Algorithm::CurveFit;
   #            '5e-05'
   #          ]
   #        ];
-  # 
+  #
   # Real values of the parameters (as demonstrated by noisy input data):
   # a = 0.2
   # c = 2
@@ -317,7 +357,7 @@ Example:
     ['parameter2', 12, 0.0001 ],
     ...
   ];
-  
+
   Then later:
   curve_fit(
   ...
@@ -375,6 +415,30 @@ L<DESCRIPTION> above.
 
 =back
 
+=head1 NOTES AND CAVEATS
+
+=over 2
+
+=item *
+
+When computing the derivative symbolically using C<Math::Symbolic>, the
+formula simplification algorithm can sometimes fail to find the equivalent
+of C<(x-x_0)/(x-x_0)>. Typically, these would be hidden in a more complex
+product. The effect is that for C<x -E<gt> x_0>, the evaluation of the
+derivative becomes undefined.
+
+Since version 1.05, we fall back to numeric differentiation
+using five-point stencil in such cases. This should help with one of the
+primary complaints about the reliability of the module.
+
+=item *
+
+This module is NOT fast.
+For slightly better performance, the formulas are compiled to
+Perl code if possible.
+
+=back
+
 =head1 SEE ALSO
 
 The algorithm implemented in this module was taken from:
@@ -392,7 +456,7 @@ Steffen Mueller, E<lt>smueller@cpan.org<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2009 by Steffen Mueller
+Copyright (C) 2005-2010 by Steffen Mueller
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.6 or,
