@@ -1,14 +1,22 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Algorithm-CurveFit
-version:      1.01
-version_from: lib/Algorithm/CurveFit.pm
-installdirs:  site
+--- #YAML:1.0
+name: Algorithm-CurveFit
+version: 1.02
+author:
+  - |-
+    Steffen Mueller <curvefit-module at steffen-mueller dot net>
+abstract: Nonlinear Least Squares Fitting
+license: perl
 requires:
-    Data::Dumper:                  0
-    Math::MatrixReal:              0
-    Math::Symbolic:                0.128
-    Test::More:                    0
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+  Data::Dumper: 0
+  Math::MatrixReal: 0
+  Math::Symbolic: 0.128
+recommends:
+  Test::Pod: 1.0
+  Test::Pod::Coverage: 1.0
+build_requires:
+  Test::More: 0
+provides:
+  Algorithm::CurveFit:
+    file: lib/Algorithm/CurveFit.pm
+    version: 1.02
+generated_by: Module::Build version 0.2608

@@ -1,4 +1,4 @@
-Algorithm-CurveFit version 1.01
+Algorithm-CurveFit version 1.02
 ===============================
 
 Algorithm::CurveFit implements a nonlinear least squares curve fitting
@@ -16,6 +16,20 @@ INSTALLATION
 
 To install this module type the following:
 
+   perl Build.PL
+   ./Build
+   ./Build test
+   ./Build install
+
+On platforms that don't support the "./" notation, that would be:
+
+   perl Build.PL
+   perl Build
+   perl Build test
+   perl Build install
+
+If you wish, you may use the old MakeMaker style instead:
+
    perl Makefile.PL
    make
    make test
@@ -23,17 +37,26 @@ To install this module type the following:
 
 DEPENDENCIES
 
-This module requires these other modules and libraries:
+For list of dependencies that includes versions, please refer to the
+META.yml file in this distribution.
 
-  Math::Symbolic version 0.128 and later
+  Math::Symbolic
   Math::MatrixReal
   Test::More
+
+SEE ALSO
+
+Current versions of this module may be found on http://steffen-mueller.net or
+CPAN.
+
+Please send your suggestions, inquiries, and feedback to
+curvefit-module at steffen-mueller dot net
 
 COPYRIGHT AND LICENCE
 
 Copyright (C) 2005 by Steffen Müller
 
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.4 or,
+it under the same terms as Perl itself, either Perl version 5.6.1 or,
 at your option, any later version of Perl 5 you may have available.
 

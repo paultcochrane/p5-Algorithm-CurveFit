@@ -23,7 +23,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
 our @EXPORT = qw();
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 use Carp qw/cluck confess/;
 use Math::Symbolic qw/parse_from_string/;
@@ -368,6 +368,19 @@ as a measure for the quality of the fit.
 
 None by default, but you may choose to export C<curve_fit> using the
 standard Exporter semantics.
+
+=head2 SUBROUTINES
+
+This is a list of public subroutines
+
+=over 2
+
+=item curve_fit
+
+This subroutine implements the curve fitting as explained in
+L<DESCRIPTION> above.
+
+=back
 
 =head1 SEE ALSO
 
