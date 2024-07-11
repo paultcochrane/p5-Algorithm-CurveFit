@@ -6,6 +6,7 @@ WriteMakefile(
     NAME              => 'Algorithm::CurveFit',
     VERSION_FROM      => 'lib/Algorithm/CurveFit.pm', # finds $VERSION
     PREREQ_PM         => {
+	'Data::Dumper' => 0,
 	'Test::More' => 0,
 	'Math::Symbolic' => 0.128,
 	'Math::MatrixReal' => 0,

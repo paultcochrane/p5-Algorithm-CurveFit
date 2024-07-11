@@ -23,7 +23,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
 our @EXPORT = qw();
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use Carp qw/cluck confess/;
 use Math::Symbolic qw/parse_from_string/;
@@ -42,10 +42,15 @@ sub curve_fit {
     # Formula
     confess("Missing 'formula' parameter.") if not defined $args{formula};
     my $formula;
-    eval { $formula = parse_from_string( $args{formula} ); };
-    confess( "Cannot parse formula '" . $args{formula} . "'. ($@)" )
-      if not defined $formula or $@;
-
+    if (ref($args{formula}) =~ /^Math::Symbolic/) {
+        $formula = $args{formula};
+    }
+    else {
+        eval { $formula = parse_from_string( $args{formula} ); };
+        confess( "Cannot parse formula '" . $args{formula} . "'. ($@)" )
+          if not defined $formula or $@;
+    }
+    
     # Variable (optional)
     my $variable = $args{variable};
     $variable = 'x' if not defined $variable;
@@ -57,7 +62,8 @@ sub curve_fit {
 
     # Parameters
     my $params = $args{params};
-    confess("Parameter 'params' has to be an array reference.")
+    
+	confess("Parameter 'params' has to be an array reference.")
       if not defined $params
       or not ref($params) eq 'ARRAY';
     my @parameters = @$params;
@@ -96,8 +102,9 @@ sub curve_fit {
     confess('Y-Data missing.')
       if not defined $ydata
       or not ref($ydata) eq 'ARRAY'
-      or not @$ydata
-      or not @$ydata == @xdata;
+      or not @$ydata;
+    confess('Y-Data and X-Data need to have the same number of elements.')
+      if not @$ydata == @xdata;
     my @ydata = @$ydata;
 
     # Max_Iter (optional)
@@ -139,13 +146,13 @@ sub curve_fit {
                 push @ary,
                   $deriv->value(
                     $variable => $xdata[$x],
-                    map { ( @{$_}[ 0, 1 ] ) } @parameters
+                    map { ( @{$_}[ 0, 1 ] ) } @parameters # a, guess
                   );
             }
             push @cols, \@ary;
         }
-
-        # Prepare matrix of datapoints X parameters
+        
+		# Prepare matrix of datapoints X parameters
         my $A = Math::MatrixReal->new_from_cols( \@cols );
 
         # transpose
@@ -219,7 +226,7 @@ use Algorithm::CurveFit;
   my $max_iter = 100; # maximum iterations
   
   my $square_residual = Algorithm::CurveFit->curve_fit(
-      formula            => $formula,
+      formula            => $formula, # may be a Math::Symbolic tree instead
       params             => \@parameters,
       variable           => $variable,
       xdata              => \@xdata,
@@ -286,6 +293,7 @@ It requires the following parameters as 'key => value' pairs:
 =item formula
 
 The formula should be a string that can be parsed by Math::Symbolic.
+Alternatively, it can be an existing Math::Symbolic tree.
 Please refer to the documentation of that module for the syntax.
 
 Evaluation of the formula for a specific value of the variable (X-Data)
