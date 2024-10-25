@@ -32,6 +32,7 @@
 \.tmp$
 \.old$
 \.bak$
+\.swp$
 \#$
 \b\.#
 ^MYMETA.yml$
