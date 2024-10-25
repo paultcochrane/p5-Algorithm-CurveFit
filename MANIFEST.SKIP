@@ -36,3 +36,4 @@
 \#$
 \b\.#
 ^MYMETA.yml$
+^MYMETA\.json$
