@@ -452,7 +452,7 @@ with them. L<Math::Symbolic>, L<Math::MatrixReal>, L<Test::More>
 
 =head1 AUTHOR
 
-Steffen Mueller, E<lt>smueller@cpan.org<gt>
+Steffen Mueller, E<lt>smueller@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
