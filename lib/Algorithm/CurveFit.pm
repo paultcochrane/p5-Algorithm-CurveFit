@@ -59,7 +59,7 @@ sub curve_fit {
     # Parameters
     my $params = $args{params};
 
-	confess("Parameter 'params' has to be an array reference.")
+    confess("Parameter 'params' has to be an array reference.")
       if not defined $params
       or not ref($params) eq 'ARRAY';
     my @parameters = @$params;
