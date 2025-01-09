@@ -450,9 +450,10 @@ New versions of this module can be found on http://steffen-mueller.net or CPAN.
 This module uses the following modules. It might be a good idea to be familiar
 with them. L<Math::Symbolic>, L<Math::MatrixReal>, L<Test::More>
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Steffen Mueller, E<lt>smueller@cpan.orgE<gt>
+Paul Cochrane, E<lt>ptc@cpan.orgE<gt> (maintainer)
 
 =head1 COPYRIGHT AND LICENSE
 
