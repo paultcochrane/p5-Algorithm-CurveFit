@@ -244,7 +244,7 @@ Algorithm::CurveFit - Nonlinear Least Squares Fitting
 
 =head1 SYNOPSIS
 
-use Algorithm::CurveFit;
+  use Algorithm::CurveFit;
 
   # Known form of the formula
   my $formula = 'c + a * x^2';
