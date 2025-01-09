@@ -1,3 +1,6 @@
+use strict;
+use warnings;
+
 use Module::Build;
 
 my $b = Module::Build->new
@@ -30,4 +33,3 @@ my $b = Module::Build->new
   );
 
 $b->create_build_script;
-
