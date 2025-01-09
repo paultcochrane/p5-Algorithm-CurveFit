@@ -8,6 +8,9 @@ my $b = Module::Build->new
        'Paul Cochrane <ptc@cpan.org>',
    ],
    license => 'perl',
+   configure_requires => {
+       'Module::Build' => 0.42,
+   },
    requires => {
                 'Data::Dumper' => '0',
                 'Math::Symbolic' => '0.602',
