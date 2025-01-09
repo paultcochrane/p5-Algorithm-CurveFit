@@ -457,7 +457,7 @@ Paul Cochrane, E<lt>ptc@cpan.orgE<gt> (maintainer)
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2010 by Steffen Mueller
+Copyright (C) 2005-2010, 2025 by Steffen Mueller
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.6 or,
