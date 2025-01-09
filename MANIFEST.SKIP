@@ -28,6 +28,7 @@
 # Avoid Module::Build generated and utility files.
 \bBuild$
 \b_build
+^Algorithm-CurveFit-.*\.tar\.gz$
 
 # Avoid temp and backup files.
 ~$
